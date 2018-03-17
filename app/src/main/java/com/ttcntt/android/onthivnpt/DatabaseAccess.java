@@ -84,7 +84,7 @@ public class DatabaseAccess {
             Cursor cursor = database.rawQuery("select questions.question_id, question_text, level " +
                     "from questions inner join question_tag " +
                     "on questions.question_id = question_tag.question_id " +
-                    "where tag_id = ?", new String[]{value});
+                    "where tag_id = "+ value, null);
 
             cursor.moveToFirst();
 
@@ -105,7 +105,7 @@ public class DatabaseAccess {
         Cursor cursor = database.rawQuery("select answers.answer_id, answers.answer_text, question_answer.state " +
                 "from answers inner join question_answer " +
                 "on answers.answer_id = question_answer.answer_id " +
-                "where question_answer.question_id ="+ "?", new String[]{""+question.getId()});
+                "where question_answer.question_id =" + question.getId(),null );
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
             Answer a = new Answer();
