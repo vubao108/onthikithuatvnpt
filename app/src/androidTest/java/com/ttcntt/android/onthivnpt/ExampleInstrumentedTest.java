@@ -1,4 +1,4 @@
-package com.bignerdranch.android.onthivnpt;
+package com.ttcntt.android.onthivnpt;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.bignerdranch.android.criminalintent", appContext.getPackageName());
+        assertEquals("com.ttcntt.android.criminalintent", appContext.getPackageName());
     }
 }

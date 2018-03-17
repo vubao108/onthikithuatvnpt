@@ -1,4 +1,4 @@
-package com.bignerdranch.android.onthivnpt;
+package com.ttcntt.android.onthivnpt;
 
 /**
  * Created by vuth1 on 13/03/2018.
@@ -105,7 +105,7 @@ public class DatabaseAccess {
         Cursor cursor = database.rawQuery("select answers.answer_id, answers.answer_text, question_answer.state " +
                 "from answers inner join question_answer " +
                 "on answers.answer_id = question_answer.answer_id " +
-                "where question_answer.question_id = ?", new String[]{""+question.getId()});
+                "where question_answer.question_id ="+ "?", new String[]{""+question.getId()});
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
             Answer a = new Answer();
