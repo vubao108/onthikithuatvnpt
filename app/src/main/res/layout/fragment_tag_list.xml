@@ -18,6 +18,19 @@
             android:layout_gravity="left"
             android:text="Học" />
 
+        <Button
+            android:id="@+id/button_thi"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Thi" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="end" />
+
     </LinearLayout>
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

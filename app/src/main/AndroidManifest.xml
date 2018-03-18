@@ -17,6 +17,7 @@
         </activity>
 
         <activity android:name="com.ttcntt.android.onthivnpt.QuestionActivity"></activity>
+        <activity android:name="com.ttcntt.android.onthivnpt.ThiQuestionActivity"></activity>
     </application>
 
 </manifest>

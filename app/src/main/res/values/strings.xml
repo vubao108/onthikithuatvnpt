@@ -1,7 +1,17 @@
 <resources>
-    <string name="app_name">Ôn thi kỹ thuật</string>
+    <string name="app_name">Ôn thi viễn thông</string>
     <string name="crime_title_hint">Enter a title for the crime.</string>
     <string name="crime_title_label">Title</string>
     <string name="crime_details_label">Details</string>
     <string name="crime_solved_label">Solved</string>
+    <string-array name="spinner_total_question">
+        <item>50</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>60</item>
+        <item>100</item>
+        <item>tất cả</item>
+    </string-array>
 </resources>

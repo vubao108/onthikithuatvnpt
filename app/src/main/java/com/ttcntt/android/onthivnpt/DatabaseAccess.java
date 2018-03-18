@@ -100,6 +100,110 @@ public class DatabaseAccess {
         }
         return list;
     }
+    public void FillQuestionsAccordingLevel(List<String> tag_id, int total_question_num, List<Question> hardList,
+                                                     List<Question>normalList, List<Question> easyList){
+
+        int num_tag_appear = total_question_num / tag_id.size();
+
+        for(int i = 0 ; i < tag_id.size(); i++) {
+            String value = tag_id.get(i);
+            if(i == (tag_id.size() - 1)){
+                num_tag_appear = total_question_num - num_tag_appear * i;
+            }
+            Cursor cursor = database.rawQuery("select questions.question_id, question_text, level " +
+                    "from questions inner join question_tag " +
+                    "on questions.question_id = question_tag.question_id " +
+                    "where tag_id = "+ value + " and level = 3 order by random() limit " + num_tag_appear , null);
+
+            cursor.moveToFirst();
+            int hard_question_according_tag = 0;
+
+            while (!cursor.isAfterLast()) {
+                hard_question_according_tag++;
+                Question q = new Question();
+                q.setId(cursor.getInt(0));
+                q.setText(cursor.getString(1));
+                q.setLevel(cursor.getInt(2));
+                hardList.add(q);
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+            if(hard_question_according_tag < num_tag_appear) {
+                Cursor normalcursor = database.rawQuery("select questions.question_id, question_text, level " +
+                        "from questions inner join question_tag " +
+                        "on questions.question_id = question_tag.question_id " +
+                        "where tag_id = " + value + " and level = 2 order by random() limit " + (num_tag_appear - hard_question_according_tag), null);
+
+                normalcursor.moveToFirst();
+                int normal_question_according_tag = 0;
+
+                while (!normalcursor.isAfterLast()) {
+                    normal_question_according_tag++;
+
+                    Question q = new Question();
+                    q.setId(normalcursor.getInt(0));
+                    q.setText(normalcursor.getString(1));
+                    q.setLevel(normalcursor.getInt(2));
+                    normalList.add(q);
+                    normalcursor.moveToNext();
+                }
+                normalcursor.close();
+
+
+                if (hard_question_according_tag + normal_question_according_tag < num_tag_appear) {
+                    Cursor easycursor = database.rawQuery("select questions.question_id, question_text, level " +
+                            "from questions inner join question_tag " +
+                            "on questions.question_id = question_tag.question_id " +
+                            "where tag_id = " + value + " and level = 1 order by random() limit " + (num_tag_appear - hard_question_according_tag- normal_question_according_tag), null);
+
+                    easycursor.moveToFirst();
+                    int easy_question_according_tag = 0;
+
+                    while (!easycursor.isAfterLast()) {
+                        easy_question_according_tag ++;
+                        Question q = new Question();
+                        q.setId(easycursor.getInt(0));
+                        q.setText(easycursor.getString(1));
+                        q.setLevel(easycursor.getInt(2));
+                        easyList.add(q);
+                        easycursor.moveToNext();
+                    }
+                    easycursor.close();
+                }
+            }
+        }
+
+    }
+    public List<Question> getQuestions(List<String> tag_id, int total_question_num){
+        List<Question> list = new ArrayList<>();
+
+        int num_tag_appear = total_question_num / tag_id.size();
+
+        for(int i = 0 ; i < tag_id.size(); i++) {
+            String value = tag_id.get(i);
+            if(i == (tag_id.size() - 1)){
+                num_tag_appear = total_question_num - num_tag_appear * i;
+            }
+            Cursor cursor = database.rawQuery("select questions.question_id, question_text, level " +
+                    "from questions inner join question_tag " +
+                    "on questions.question_id = question_tag.question_id " +
+                    "where tag_id = "+ value + " order by random() limit " + num_tag_appear , null);
+
+            cursor.moveToFirst();
+
+            while (!cursor.isAfterLast()) {
+                Question q = new Question();
+                q.setId(cursor.getInt(0));
+                q.setText(cursor.getString(1));
+                q.setLevel(cursor.getInt(2));
+                list.add(q);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return list;
+    }
     public List<Answer> getAnswer(Question question){
         List<Answer> list = new ArrayList<>();
         Cursor cursor = database.rawQuery("select answers.answer_id, answers.answer_text, question_answer.state " +
@@ -121,6 +225,7 @@ public class DatabaseAccess {
         cursor.close();
         return  list;
     }
+
     public void updateEasy(int questionId){
         ContentValues cv = new ContentValues();
         cv.put("level",1);

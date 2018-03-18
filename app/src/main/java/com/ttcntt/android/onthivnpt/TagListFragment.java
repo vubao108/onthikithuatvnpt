@@ -10,10 +10,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Space;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,17 +33,21 @@ public class TagListFragment extends Fragment {
     private TagAdapder mAdapter;
     private static List<Integer> list_current_display_view = new ArrayList();
     public static int ID = 0;
-    private Button button_hoc;
+    private Button button_hoc, button_thi;
     private List<String> tag_id_list ;
+    private Spinner spinner;
+    private int total_question_to_appear;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_tag_list, container, false);
         mTagRecyclerView = (RecyclerView) view.findViewById(R.id.crime_recycler_view);
         mTagRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        spinner = (Spinner)view.findViewById(R.id.spinner);
         tag_id_list = new ArrayList<>();
         button_hoc = (Button)view.findViewById(R.id.hoc_button);
-        //button_thi = (Button)view.findViewById(R.id.thi_button);
+        button_thi = (Button)view.findViewById(R.id.button_thi);
+        total_question_to_appear = 50;
         button_hoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,11 +59,30 @@ public class TagListFragment extends Fragment {
                     }
                     Intent intent = new Intent(getActivity(), QuestionActivity.class);
                     intent.putExtra(QuestionActivity.QUESTION, ids);
+                    intent.putExtra(QuestionActivity.TOTAL_QUESTION_APPEAR,total_question_to_appear);
                     startActivity(intent);
                 }else {
                     Toast.makeText(getContext(), "Phải chọn ít nhất 1 chủ đề ", Toast.LENGTH_LONG);
                 }
 
+            }
+        });
+        button_thi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(tag_id_list.size() > 0) {
+                    Log.i(TAG, "button thi clicked");
+                    String ids = "";
+                    for (String value : tag_id_list) {
+                        ids = ids + value + ";";
+                    }
+                    Intent intent = new Intent(getActivity(), ThiQuestionActivity.class);
+                    intent.putExtra(QuestionActivity.QUESTION, ids);
+                    intent.putExtra(QuestionActivity.TOTAL_QUESTION_APPEAR,total_question_to_appear);
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(getContext(), "Phải chọn ít nhất 1 chủ đề ", Toast.LENGTH_LONG);
+                }
             }
         });
         updateUI();
@@ -68,6 +96,27 @@ public class TagListFragment extends Fragment {
         mAdapter = new TagAdapder(tags);
         mTagRecyclerView.setAdapter(mAdapter);
 
+        ArrayAdapter<CharSequence>  spinAdapter = ArrayAdapter.createFromResource(getContext(), R.array.spinner_total_question, android.R.layout.simple_spinner_item);
+        spinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                   String item = adapterView.getItemAtPosition(i).toString();
+                   try{
+                       total_question_to_appear = Integer.parseInt(adapterView.getItemAtPosition(i).toString());
+
+                   }catch (Exception e){
+                        total_question_to_appear = 10000;
+                   }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+
+            }
+        });
     }
 
     private class TagHolder extends RecyclerView.ViewHolder{
@@ -77,7 +126,7 @@ public class TagListFragment extends Fragment {
 
 
         public TagHolder(LayoutInflater inflater, ViewGroup parent){
-            super(inflater.inflate(R.layout.list_item_crime, parent, false ));
+            super(inflater.inflate(R.layout.list_item_tag, parent, false ));
             id =  ++ID;
            mCheckBox = (CheckBox)itemView.findViewById(R.id.checkBox);
            mCheckBox.setOnClickListener(new View.OnClickListener() {
