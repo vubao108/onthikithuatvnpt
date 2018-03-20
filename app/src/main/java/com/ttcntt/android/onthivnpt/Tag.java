@@ -8,6 +8,25 @@ public class Tag {
     private int id;
     private String name;
     private int count;
+    private  int position;
+
+    private int state;
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
     public int getId() {
         return id;

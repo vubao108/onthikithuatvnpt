@@ -8,6 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -22,12 +25,15 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by NHC on 12/02/2018.
  */
 
 public class TagListFragment extends Fragment {
     public static final String TAG = "RecyclerView";
+    public int MY_REQUEST_CODE = 108;
 
     private RecyclerView mTagRecyclerView;
     private TagAdapder mAdapter;
@@ -37,6 +43,11 @@ public class TagListFragment extends Fragment {
     private List<String> tag_id_list ;
     private Spinner spinner;
     private int total_question_to_appear;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -89,6 +100,36 @@ public class TagListFragment extends Fragment {
 
         return view;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.tag_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.setting){
+            Intent intent = new Intent(getActivity(), FilterActivity.class);
+            startActivityForResult(intent, MY_REQUEST_CODE);
+
+
+        }
+        return true;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == MY_REQUEST_CODE && resultCode == RESULT_OK){
+            updateUI();
+        }
+    }
+
     private void updateUI(){
         DataLab dataLab = DataLab.get(getActivity());
         List<Tag> tags = dataLab.getTags();
@@ -118,6 +159,7 @@ public class TagListFragment extends Fragment {
             }
         });
     }
+
 
     private class TagHolder extends RecyclerView.ViewHolder{
         public int id;
@@ -152,7 +194,7 @@ public class TagListFragment extends Fragment {
         }
         public void bind(Tag tag){
             mTag = tag;
-            mCheckBox.setText(tag.getId() + "-" + tag.getName() + "(" + tag.getCount() + "câu)");
+            mCheckBox.setText(tag.getPosition() + "-" + tag.getName() + "(" + tag.getCount() + "câu)");
         }
 
 
@@ -179,6 +221,7 @@ public class TagListFragment extends Fragment {
             list_current_display_view.add(holder.id);
             print_currentId(10);
             Tag tag = mTags.get(position);
+            tag.setPosition(position+1);
             holder.bind(tag);
         }
         private void print_currentId(int number){

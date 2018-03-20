@@ -32,6 +32,19 @@ public class DataLab {
 
         return list_tag;
     }
+    public List<Tag> getTagState(){
+
+        mDatabase.open();
+        List<Tag> list_tag = mDatabase.getTagState();
+        mDatabase.close();
+
+        return list_tag;
+    }
+    public void updateTagState(List<Tag> tagList){
+        mDatabase.open();
+        mDatabase.updateTagState(tagList);
+        mDatabase.close();
+    }
 
 
 

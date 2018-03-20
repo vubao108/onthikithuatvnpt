@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+
+            android:text="Chỉ tích vào những chủ đề bạn muốn hiển thị ở trang chính sau đó ấn nút Cập Nhật"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+
+
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/crime_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            />
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

@@ -63,7 +63,7 @@ public class DatabaseAccess {
      */
     public List<Tag> getTags() {
         List<Tag> list = new ArrayList<>();
-        Cursor cursor = database.rawQuery("select t.tag_id, tag_name, count(tag_name) from question_tag qt inner join tags t on qt.tag_id = t.tag_id group by t.tag_id, tag_name", null);
+        Cursor cursor = database.rawQuery("select t.tag_id, tag_name, count(tag_name) from question_tag qt inner join tags t on qt.tag_id = t.tag_id group by t.tag_id, tag_name having t.enable= 1 " , null);
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()) {
@@ -71,6 +71,22 @@ public class DatabaseAccess {
             tag.setId(cursor.getInt(0));
             tag.setName(cursor.getString(1));
             tag.setCount(cursor.getInt(2));
+            list.add(tag);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return list;
+    }
+    public List<Tag> getTagState() {
+        List<Tag> list = new ArrayList<>();
+        Cursor cursor = database.rawQuery("select tag_id, tag_name, enable from tags", null);
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()) {
+            Tag tag = new Tag();
+            tag.setId(cursor.getInt(0));
+            tag.setName(cursor.getString(1));
+            tag.setState(cursor.getInt(2));
             list.add(tag);
             cursor.moveToNext();
         }
@@ -241,4 +257,16 @@ public class DatabaseAccess {
         cv.put("level",2);
         database.update("questions",cv, "question_id=?",new String[]{""+questionId});
     }
+
+    public void updateTagState(List<Tag> taglist){
+
+        for(int i = 0 ; i < taglist.size(); i++){
+            String tag_id = ""+ taglist.get(i).getId();
+            String state = ""+ (taglist.get(i)).getState();
+            ContentValues cv = new ContentValues();
+            cv.put("enable", state );
+            database.update("tags",cv,"tag_id=?",new String[]{tag_id});
+        }
+    }
+
 }
