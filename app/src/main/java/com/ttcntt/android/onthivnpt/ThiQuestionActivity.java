@@ -203,28 +203,44 @@ public class ThiQuestionActivity extends AppCompatActivity {
         }
     }
     private void mergeAnswer(List<Answer> answers){
+        int num_abvoe = answers.size();
+        if(num_abvoe <=3){
+            Log.i("info","3");
+        }
+        Random r = new Random();
+        int index1 = r.nextInt(num_abvoe) ;
+        int index2, index3, index4;
+        answer1.setText(answers.get(index1).getText());
+        do {
+            index2 = r.nextInt(num_abvoe);
 
-            Random r = new Random();
-            int index1 = r.nextInt(4) ;
-            int index2, index3, index4;
-            answer1.setText(answers.get(index1).getText());
+        }while (index2 == index1);
+        answer2.setText(answers.get(index2).getText());
+
+
+        if(answers.size() >= 3) {
             do {
-                index2 = r.nextInt(4);
-
-            }while (index2 == index1);
-            answer2.setText(answers.get(index2).getText());
-
-            do {
-                index3 = r.nextInt(4);
+                index3 = r.nextInt(num_abvoe);
 
             }while (index3 == index1 || index3 == index2);
             answer3.setText(answers.get(index3).getText());
 
-            do {
-                index4 = r.nextInt(4);
+            if(answers.size() >=4) {
+                do {
+                    index4 = r.nextInt(num_abvoe);
 
-            }while (index4 == index3 || index4 == index2 || index4 == index1);
-            answer4.setText(answers.get(index4).getText());
+                }while (index4 == index3 || index4 == index2 || index4 == index1);
+                answer4.setText(answers.get(index4).getText());
+            }else{
+                answer4.setText("");
+            }
+
+        }else {
+            answer3.setText("");
+            answer4.setText("");
+        }
+
+
 
 
     }
