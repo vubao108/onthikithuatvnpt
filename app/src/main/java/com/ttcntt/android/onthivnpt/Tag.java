@@ -9,8 +9,17 @@ public class Tag {
     private String name;
     private int count;
     private  int position;
+    private  int clicked;
 
     private int state;
+
+    public int getClicked() {
+        return clicked;
+    }
+
+    public void setClicked(int clicked) {
+        this.clicked = clicked;
+    }
 
     public int getState() {
         return state;

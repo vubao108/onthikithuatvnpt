@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * Created by NHC on 12/02/2018.
@@ -33,6 +34,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class TagListFragment extends Fragment {
     public static final String TAG = "RecyclerView";
+    public static final String ID_LIST_CLICKED = "idlistclicked";
     public int MY_REQUEST_CODE = 108;
 
     private RecyclerView mTagRecyclerView;
@@ -41,6 +43,7 @@ public class TagListFragment extends Fragment {
     public static int ID = 0;
     private Button button_hoc, button_thi;
     private List<Tag> tag_id_list ;
+    private List<String> id_tag_clicked;
     private Spinner spinner;
     private int total_question_to_appear;
     @Override
@@ -51,6 +54,7 @@ public class TagListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "oncreateView");
         View view = inflater.inflate(R.layout.fragment_tag_list, container, false);
         mTagRecyclerView = (RecyclerView) view.findViewById(R.id.crime_recycler_view);
         mTagRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -96,15 +100,64 @@ public class TagListFragment extends Fragment {
                 }
             }
         });
+        if(savedInstanceState == null){
+            id_tag_clicked = new ArrayList<>();
+        }
+        else {
+            id_tag_clicked = savedInstanceState.getStringArrayList(ID_LIST_CLICKED);
+        }
+
         updateUI();
 
         return view;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        List<String> tmpList = new ArrayList<>();
+        for(int i = 0; i < tag_id_list.size(); i++){
+            tmpList.add(""+tag_id_list.get(i).getId());
+        }
+        id_tag_clicked = tmpList;
+        outState.putStringArrayList(ID_LIST_CLICKED, (ArrayList<String>) id_tag_clicked);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
        Log.i(TAG, "onresume");
         // updateUI();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i(TAG,"onPause");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i(TAG,"onStop");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.i(TAG,"onDestroyView");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG,"onDestroy");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.i(TAG,"onDetach");
     }
 
     @Override
@@ -132,9 +185,17 @@ public class TagListFragment extends Fragment {
     }
 
     private void updateUI(){
+        Log.i(TAG,"updateUI");
         DataLab dataLab = DataLab.get(getActivity());
         List<Tag> tags = dataLab.getTags();
-
+        for(int i = 0; i< id_tag_clicked.size();i++){
+            String id_tmp = id_tag_clicked.get(i);
+            for(int j=0; j<tags.size();j++){
+                if(tags.get(j).getId() == Integer.parseInt(id_tmp)){
+                    tags.get(j).setClicked(1);
+                }
+            }
+        }
         tag_id_list = new ArrayList<>();
         mAdapter = new TagAdapder(tags);
         mTagRecyclerView.setAdapter(mAdapter);
@@ -200,6 +261,9 @@ public class TagListFragment extends Fragment {
         public void bind(Tag tag){
             mTag = tag;
             mCheckBox.setText(tag.getPosition() + "-" + tag.getName() + "(" + tag.getCount() + "câu)");
+            if(tag.getClicked() == 1){
+                mCheckBox.setChecked(true);
+            }
         }
 
 
@@ -240,7 +304,7 @@ public class TagListFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            Log.i(TAG, "getItemCount");
+           // Log.i(TAG, "getItemCount");
             return mTags.size();
         }
     }
