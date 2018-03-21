@@ -188,15 +188,19 @@ public class TagListFragment extends Fragment {
         Log.i(TAG,"updateUI");
         DataLab dataLab = DataLab.get(getActivity());
         List<Tag> tags = dataLab.getTags();
+
+        //tag_id_list = new ArrayList<>();
         for(int i = 0; i< id_tag_clicked.size();i++){
             String id_tmp = id_tag_clicked.get(i);
             for(int j=0; j<tags.size();j++){
                 if(tags.get(j).getId() == Integer.parseInt(id_tmp)){
                     tags.get(j).setClicked(1);
+                    tag_id_list.add(tags.get(j));
                 }
             }
         }
-        tag_id_list = new ArrayList<>();
+
+
         mAdapter = new TagAdapder(tags);
         mTagRecyclerView.setAdapter(mAdapter);
 
