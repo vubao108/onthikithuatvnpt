@@ -40,7 +40,7 @@ public class TagListFragment extends Fragment {
     private static List<Integer> list_current_display_view = new ArrayList();
     public static int ID = 0;
     private Button button_hoc, button_thi;
-    private List<String> tag_id_list ;
+    private List<Tag> tag_id_list ;
     private Spinner spinner;
     private int total_question_to_appear;
     @Override
@@ -65,8 +65,8 @@ public class TagListFragment extends Fragment {
                 if(tag_id_list.size() > 0) {
                     Log.i(TAG, "button thi clicked");
                     String ids = "";
-                    for (String value : tag_id_list) {
-                        ids = ids + value + ";";
+                    for (Tag tag : tag_id_list) {
+                        ids = ids + tag.getId()+ ";";
                     }
                     Intent intent = new Intent(getActivity(), QuestionActivity.class);
                     intent.putExtra(QuestionActivity.QUESTION, ids);
@@ -84,8 +84,8 @@ public class TagListFragment extends Fragment {
                 if(tag_id_list.size() > 0) {
                     Log.i(TAG, "button thi clicked");
                     String ids = "";
-                    for (String value : tag_id_list) {
-                        ids = ids + value + ";";
+                    for (Tag tag : tag_id_list) {
+                        ids = ids + tag.getId() + ";";
                     }
                     Intent intent = new Intent(getActivity(), ThiQuestionActivity.class);
                     intent.putExtra(QuestionActivity.QUESTION, ids);
@@ -103,7 +103,8 @@ public class TagListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateUI();
+       Log.i(TAG, "onresume");
+        // updateUI();
     }
 
     @Override
@@ -134,6 +135,7 @@ public class TagListFragment extends Fragment {
         DataLab dataLab = DataLab.get(getActivity());
         List<Tag> tags = dataLab.getTags();
 
+        tag_id_list = new ArrayList<>();
         mAdapter = new TagAdapder(tags);
         mTagRecyclerView.setAdapter(mAdapter);
 
@@ -177,14 +179,17 @@ public class TagListFragment extends Fragment {
                    Log.i(TAG, "clicked checkbox: " + mTag.getId() + " - " + mTag.getName());
                    if(mCheckBox.isChecked()){
                        Log.i(TAG, "checkedbox is checked");
-                       tag_id_list.add(""+mTag.getId());
+
+                       tag_id_list.add(mTag);
 
                    }else {
                        Log.i(TAG, "checkbox not checked");
-                       tag_id_list.remove(""+mTag.getId());
-                   }
-                   for (String value : tag_id_list) {
-                       Log.i(TAG, value);
+                       for(int i=0;i<tag_id_list.size();i++) {
+                           if(tag_id_list.get(i).getId() == mTag.getId()) {
+                               tag_id_list.remove(i);
+                               break;
+                           }
+                       }
                    }
 
                }
