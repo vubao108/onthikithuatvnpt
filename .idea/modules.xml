@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CriminalIntent - Copy (2).iml" filepath="$PROJECT_DIR$/CriminalIntent - Copy (2).iml" />
       <module fileurl="file://C:\Users\vuth1\Documents\Code\onthikithuatvnpt\CriminalIntent - Copy (2).iml" filepath="C:\Users\vuth1\Documents\Code\onthikithuatvnpt\CriminalIntent - Copy (2).iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/onthikithuatvnpt.iml" filepath="$PROJECT_DIR$/onthikithuatvnpt.iml" />
       <module fileurl="file://C:\Users\NHC\Documents\huuvu\Code\CriminalIntent - Copy (2)\onthikithuatvnpt.iml" filepath="C:\Users\NHC\Documents\huuvu\Code\CriminalIntent - Copy (2)\onthikithuatvnpt.iml" />
     </modules>
   </component>

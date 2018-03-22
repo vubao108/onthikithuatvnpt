@@ -189,7 +189,7 @@ public class TagListFragment extends Fragment {
         DataLab dataLab = DataLab.get(getActivity());
         List<Tag> tags = dataLab.getTags();
 
-        //tag_id_list = new ArrayList<>();
+        tag_id_list = new ArrayList<>();
         for(int i = 0; i< id_tag_clicked.size();i++){
             String id_tmp = id_tag_clicked.get(i);
             for(int j=0; j<tags.size();j++){

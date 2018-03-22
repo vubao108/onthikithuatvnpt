@@ -30,6 +30,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:text="main_an"
+                android:textColor="@android:color/background_dark"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -53,6 +54,7 @@
                     android:background="@drawable/back"
                     android:checked="false"
                     android:text="answer01"
+                    android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/id_main_question" />
@@ -66,6 +68,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/back"
                     android:text="answer2"
+                    android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/radioButton" />
@@ -79,6 +82,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/back"
                     android:text="answer03"
+                    android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/a2" />
@@ -92,6 +96,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/back"
                     android:text="answer04"
+                    android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/a4" />
